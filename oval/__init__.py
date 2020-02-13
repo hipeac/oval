@@ -4,6 +4,7 @@ from datetime import datetime
 from flask import Flask
 from flask_assets import Environment, Bundle
 from flask_caching import Cache
+from flask_compress import Compress
 
 
 app = Flask(__name__, static_url_path='/static')
@@ -24,6 +25,8 @@ else:
     CACHE_CONFIG = {'CACHE_TYPE': 'null'}
 
 
+# optimization
+Compress(app)
 cache = Cache(app, config=CACHE_CONFIG)
 
 

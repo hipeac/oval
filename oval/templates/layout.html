@@ -15,19 +15,25 @@
     <body>
         {% block content %}{% endblock %}
         {% block vue_templates %}{% endblock %}
-        <script src="{{ url_for('static', filename='vendor/underscore@1.9.2/underscore.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='vendor/axios@0.19.2/axios.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='vendor/quasar@1.9.1/quasar.ie.polyfills.umd.min.js') }}"></script>
+        {% assets output='__bundle__/helpers.js',
+            'vendor/axios@0.19.2/axios.min.js',
+            'vendor/underscore@1.9.2/underscore.min.js' %}
+            <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
         {% if DEBUG %}
             <script src="{{ url_for('static', filename='vendor/vue@2.6.11/vue.js') }}"></script>
             <script src="{{ url_for('static', filename='vendor/vuex@3.1.2/vuex.js') }}"></script>
             <script src="{{ url_for('static', filename='vendor/vue-router@3.1.5/vue-router.js') }}"></script>
             <script src="{{ url_for('static', filename='vendor/quasar@1.9.1/quasar.umd.js') }}"></script>
         {% else %}
-            <script src="{{ url_for('static', filename='vendor/vue@2.6.11/vue.min.js') }}"></script>
-            <script src="{{ url_for('static', filename='vendor/vuex@3.1.2/vuex.min.js') }}"></script>
-            <script src="{{ url_for('static', filename='vendor/vue-router@3.1.5/vue-router.min.js') }}"></script>
-            <script src="{{ url_for('static', filename='vendor/quasar@1.9.1/quasar.umd.min.js') }}"></script>
+            {% assets output='__bundle__/vue.js',
+                'vendor/quasar@1.9.1/quasar.ie.polyfills.umd.min.js',
+                'vendor/vue@2.6.11/vue.min.js',
+                'vendor/vuex@3.1.2/vuex.min.js',
+                'vendor/vue-router@3.1.5/vue-router.min.js',
+                'vendor/quasar@1.9.1/quasar.umd.min.js' %}
+                <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+            {% endassets %}
         {% endif %}
         {% block scripts %}{% endblock %}
     </body>
