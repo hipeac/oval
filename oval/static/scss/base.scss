@@ -29,6 +29,12 @@ body {
     max-width: 600px;
 }
 
+.oval-logos {
+    img {
+        max-height: 50px;
+    }
+}
+
 .text-st-bright-red {
     color: $stanford-bright-red;
 }

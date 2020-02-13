@@ -5,9 +5,21 @@
     <div id="vue" is="q-layout" view="hHh LpR fFf">
         <div is="q-page-container">
             <main is="q-page" class="oval-container q-mt-lg q-mb-xl q-mx-auto q-pa-md bg-white rounded-borders" :class="{'q-pa-xl': $q.screen.gt.sm}">
-                <h2 class="q-my-md">First European Open Virtual Assistant Workshop</h2>
-                <h5 class="q-mt-none text-weight-light">
-                    <span is="q-icon" size="sm" name="today" class="q-mb-xs q-mr-sm"></span>March 20th, 2020 from 9:30 to 16:00</h5>
+                <div class="text-center">
+                    <div class="oval-logos q-gutter-x-xl">
+                        <a href="http://www.cea.fr/english" target="_blank" rel="noopener">
+                            <img src="{{ url_for('static', filename='images/cea.svg') }}">
+                        </a>
+                        <a href="https://oval.cs.stanford.edu/" target="_blank" rel="noopener">
+                            <img src="{{ url_for('static', filename='images/stanford.svg') }}">
+                        </a>
+                        <a href="https://www.hipeac.net/" target="_blank" rel="noopener">
+                            <img src="{{ url_for('static', filename='images/hipeac.svg') }}">
+                        </a>
+                    </div>
+                    <h1 class="q-my-lg text-h3 text-weight-light">First European Open Virtual Assistant Workshop</h1>
+                    <h3 class="q-mt-none text-h6 text-weight-light">March 20th, 2020 from 9:30 to 16:00</h3>
+                </div>
                 <div is="q-tabs" inline-label align="justify" class="text-primary">
                     <div is="q-route-tab" :to="{ name: 'main' }" exact icon="chat" label="Workshop" ></div>
                     <div is="q-route-tab" :to="{ name: 'main' }" exact icon="view_agenda" label="Programme" ></div>

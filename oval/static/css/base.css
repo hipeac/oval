@@ -14,5 +14,8 @@ body {
       .oval-form {
         max-width: 600px; }
 
-        .text-st-bright-red {
-          color: #b1040e; }
+        .oval-logos img {
+          max-height: 50px; }
+
+.text-st-bright-red {
+  color: #b1040e; }
