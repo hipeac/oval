@@ -1,5 +1,6 @@
 body {
-  background-color: #f9f6ef;
+  background: #f9f6ef url(https://images.unsplash.com/photo-1519558260268-cde7e03a0152?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=70) no-repeat fixed center;
+  background-size: cover;
   color: #2f2424;
   font-size: 15px;
   line-height: 1.6; }

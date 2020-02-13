@@ -15,6 +15,7 @@
     <body>
         {% block content %}{% endblock %}
         {% block vue_templates %}{% endblock %}
+        <script src="{{ url_for('static', filename='vendor/underscore@1.9.2/underscore.min.js') }}"></script>
         <script src="{{ url_for('static', filename='vendor/axios@0.19.2/axios.min.js') }}"></script>
         <script src="{{ url_for('static', filename='vendor/quasar@1.9.1/quasar.ie.polyfills.umd.min.js') }}"></script>
         {% if DEBUG %}

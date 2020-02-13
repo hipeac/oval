@@ -4,8 +4,8 @@
 {% block content %}
     <div id="vue" is="q-layout" view="hHh LpR fFf">
         <div is="q-page-container">
-            <main is="q-page" class="oval-container q-mt-lg q-mb-xl q-mx-auto q-pa-md bg-white rounded-borders" :class="{'q-pa-lg': $q.screen.gt.sm}">
-                <h2 class="q-mb-md">First European Open Virtual Assistant Workshop</h2>
+            <main is="q-page" class="oval-container q-mt-lg q-mb-xl q-mx-auto q-pa-md bg-white rounded-borders" :class="{'q-pa-xl': $q.screen.gt.sm}">
+                <h2 class="q-my-md">First European Open Virtual Assistant Workshop</h2>
                 <h5 class="q-mt-none text-weight-light">
                     <span is="q-icon" size="sm" name="today" class="q-mb-xs q-mr-sm"></span>March 20th, 2020 from 9:30 to 16:00</h5>
                 <div is="q-tabs" inline-label align="justify" class="text-primary">
@@ -28,38 +28,65 @@
 
 {% block scripts %}
     <script>
+        var Store = new Vuex.Store({
+            state: {
+                registration: null
+            },
+            mutations: {
+                updateRegistration: function (state, data) {
+                    state.registration = data;
+                }
+            }
+        });
+
         var MainView = {
-            template: '#v-main'
+            template: '#v-main',
+            computed: _.extend(
+                Vuex.mapState(['registration']), {
+            })
         };
 
         var RegistrationView = {
             template: '#v-registration',
             data: function () {
                 return {
-                    step: 1,
-                    registration: {}
+                    formData: {bool_q2: false}
                 };
             },
+            computed: _.extend(
+                Vuex.mapState(['registration']), {
+            }),
             methods: {
                 onSubmit: function () {
-                    var notify = this.$parent.$q.notify;
-                    axios.post(
-                        '{{ HIPEAC_API_ENDPOINT }}/open-registrations/?event={{ HIPEAC_EVENT_UUID }}',
-                        this.registration
-                    ).then(function (res) {
-                        notify({
+                    var self = this;
+                    var method = (this.registration) ? 'put' : 'post';
+                    var url = (this.registration)
+                        ? '{{ HIPEAC_API_ENDPOINT }}/open-registrations/' + this.registration.uuid + '/'
+                        : '{{ HIPEAC_API_ENDPOINT }}/open-registrations/?event={{ HIPEAC_EVENT_UUID }}';
+                    var msg = (this.registration)
+                        ? 'Your registration has been updated.'
+                        : 'Thank you! We have received your registration. You will receive a confirmation email soon.';
+
+                    axios({
+                        method: method,
+                        url: url,
+                        data: self.formData
+                    }).then(function (res) {
+                        self.formData = JSON.parse(JSON.stringify(res.data));
+                        self.$store.commit('updateRegistration', res.data);
+                        self.$parent.$q.notify({
                             type: 'positive',
-                            message: 'Thank you! We have received your registration. You will receive a confirmation email soon.'
+                            message: msg
                         });
                     }).catch(function (error) {
-                        notify({
+                        self.$parent.$q.notify({
                             type: 'warning',
                             message: 'There was some problem saving the data.'
                         });
                     });
                 },
                 onReset: function () {
-                    this.registration = {};
+                    this.formData = {bool_q2: false};
                 }
             }
         };
@@ -83,6 +110,7 @@
 
         new Vue({
             el: '#vue',
+            store: Store,
             router: Router
         });
     </script>
