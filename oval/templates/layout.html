@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Material+Icons" type="text/css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/quasar@1.9.1/quasar.min.css') }}">
+        {% assets 'base_css' %}
+            <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
+        {% endassets %}
+        {% block styles %}{% endblock %}
+        <title>{% block title %}OVAL Europe{% endblock %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        {% block head_scripts %}{% endblock %}
+    </head>
+    <body>
+        {% block content %}{% endblock %}
+        {% block vue_templates %}{% endblock %}
+        <script src="{{ url_for('static', filename='vendor/axios@0.19.2/axios.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='vendor/quasar@1.9.1/quasar.ie.polyfills.umd.min.js') }}"></script>
+        {% if DEBUG %}
+            <script src="{{ url_for('static', filename='vendor/vue@2.6.11/vue.js') }}"></script>
+            <script src="{{ url_for('static', filename='vendor/vuex@3.1.2/vuex.js') }}"></script>
+            <script src="{{ url_for('static', filename='vendor/vue-router@3.1.5/vue-router.js') }}"></script>
+            <script src="{{ url_for('static', filename='vendor/quasar@1.9.1/quasar.umd.js') }}"></script>
+        {% else %}
+            <script src="{{ url_for('static', filename='vendor/vue@2.6.11/vue.min.js') }}"></script>
+            <script src="{{ url_for('static', filename='vendor/vuex@3.1.2/vuex.min.js') }}"></script>
+            <script src="{{ url_for('static', filename='vendor/vue-router@3.1.5/vue-router.min.js') }}"></script>
+            <script src="{{ url_for('static', filename='vendor/quasar@1.9.1/quasar.umd.min.js') }}"></script>
+        {% endif %}
+        {% block scripts %}{% endblock %}
+    </body>
+</html>

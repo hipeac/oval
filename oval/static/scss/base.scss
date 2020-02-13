@@ -1,0 +1,33 @@
+$stanford-red: #8c1515;
+$stanford-bright-red: #b1040e;
+$stanford-sandstone: #f9f6ef;
+$stanford-chocolate: #2f2424;
+
+$hipeac-blue: #005eb8;
+$hipeac-yellow: #ffe800;
+$hipeac-light-yellow: #fef9ab;
+$hipeac-light-blue: lightblue;
+
+
+body {
+    background-color: $stanford-sandstone;
+    color: $stanford-chocolate;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.oval-container {
+    max-width: 860px;
+}
+
+.oval-tabs {
+    color: $stanford-red;
+}
+
+.oval-form {
+    max-width: 600px;
+}
+
+.text-st-bright-red {
+    color: $stanford-bright-red;
+}

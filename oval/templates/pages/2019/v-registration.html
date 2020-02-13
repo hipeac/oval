@@ -1,0 +1,99 @@
+<script type="text/x-template" id="v-registration">
+{% raw %}
+    <div>
+        <q-form
+            class="oval-form q-mx-auto"
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="off"
+            spellcheck="false"
+            @submit="onSubmit"
+            @reset="onReset">
+
+            <q-timeline color="grey-4">
+                <q-timeline-entry
+                    icon="person"
+                    subtitle="Contact information (required)">
+                    <q-input filled
+                        v-model="registration.first_name"
+                        label="First name *"
+                        :rules="[ val => val && val.length > 0 || 'Please type something']"
+                    />
+                    <q-input filled
+                        v-model="registration.last_name"
+                        label="Surname *"
+                        :rules="[ val => val && val.length > 0 || 'Please type something']"
+                    />
+                    <q-input filled
+                        type="email"
+                        v-model="registration.email"
+                        label="Email *"
+                        :rules="[ val => val && val.length > 0 || 'Please type something']"
+                    />
+                    <q-input filled
+                        v-model="registration.affiliation"
+                        label="Affiliation *"
+                        :rules="[ val => val && val.length > 0 || 'Please type something']"
+                    />
+                </q-timeline-entry>
+
+                <q-timeline-entry
+                    icon="location_on"
+                    subtitle="Address">
+                    <p>Non mandatory. We might use this to send you relevant information. We will <strong>never</strong> share this information with third-parties.</p>
+                    <div class="q-gutter-md q-mt-md">
+                        <q-input autogrow filled
+                            v-model="registration.address"
+                            label="Address"
+                        />
+                        <div class="row">
+                            <div class="col-4 q-pr-md">
+                                <q-input filled
+                                    v-model="registration.zip_code"
+                                    label="ZIP code"
+                                />
+                            </div>
+                            <div class="col-8">
+                                <q-input filled
+                                    v-model="registration.city"
+                                    label="City"
+                                />
+                            </div>
+                        </div>
+                        <q-input filled
+                            v-model="registration.country_raw"
+                            label="Country"
+                        />
+                    </div>
+                </q-timeline-entry>
+
+                <q-timeline-entry
+                    icon="airplay"
+                    subtitle="Break Out Sessions">
+                    <p>In the afternoon (15:15 - 16:15) we will be organizing two break out sessions at the same time. Could you please indicate which one of the two sessions you would like to attend?</p>
+                    <q-radio v-model="registration.bool_q1" :val="true" label="Making a Global Initiative (open discussion)" />
+                    <q-radio v-model="registration.bool_q1" :val="false" label="Virtual Assistant Technology (tutorial)" />
+                </q-timeline-entry>
+
+                <q-timeline-entry
+                    icon="alternate_email"
+                    subtitle="Virtual Assistant Technology">
+                    <div class="q-gutter-md q-mt-md">
+                        <q-input filled
+                            type="textarea"
+                            v-model="registration.open_q1"
+                            label="What are you expecting from virtual assistant technology?"
+                            />
+                        <q-checkbox v-model="registration.bool_q2" label="Check this box if you are interested in actively participating on the development of this technology." />
+                    </div>
+                </q-timeline-entry>
+
+                <q-timeline-entry>
+                    <q-btn label="Submit" type="submit" color="primary" />
+                    <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+                </q-timeline-entry>
+            </q-timeline>
+        </q-form>
+    </div>
+{% endraw %}
+</script>

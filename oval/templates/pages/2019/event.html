@@ -1,0 +1,89 @@
+{% extends 'layout.html' %}
+
+
+{% block content %}
+    <div id="vue" is="q-layout" view="hHh LpR fFf">
+        <div is="q-page-container">
+            <main is="q-page" class="oval-container q-mt-lg q-mb-xl q-mx-auto q-pa-md bg-white rounded-borders" :class="{'q-pa-lg': $q.screen.gt.sm}">
+                <h2 class="q-mb-md">First European Open Virtual Assistant Workshop</h2>
+                <h5 class="q-mt-none text-weight-light">
+                    <span is="q-icon" size="sm" name="today" class="q-mb-xs q-mr-sm"></span>March 20th, 2020 from 9:30 to 16:00</h5>
+                <div is="q-tabs" inline-label align="justify" class="text-primary">
+                    <div is="q-route-tab" :to="{ name: 'main' }" exact icon="chat" label="Workshop" ></div>
+                    <div is="q-route-tab" :to="{ name: 'main' }" exact icon="view_agenda" label="Programme" ></div>
+                    <div is="q-route-tab" :to="{ name: 'registration' }" exact icon="edit" label="Registration"></div>
+                    <div is="q-route-tab" :to="{ name: 'registration' }" exact icon="location_on" label="Venue" ></div>
+                </div>
+                <div is="q-separator"></div>
+                <router-view class="q-my-xl"></router-view>
+            </main>
+        </div>
+    </div>
+{% endblock %}
+
+{% block vue_templates %}
+    {% include 'pages/2019/v-main.html' %}
+    {% include 'pages/2019/v-registration.html' %}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var MainView = {
+            template: '#v-main'
+        };
+
+        var RegistrationView = {
+            template: '#v-registration',
+            data: function () {
+                return {
+                    step: 1,
+                    registration: {}
+                };
+            },
+            methods: {
+                onSubmit: function () {
+                    var notify = this.$parent.$q.notify;
+                    axios.post(
+                        '{{ HIPEAC_API_ENDPOINT }}/open-registrations/?event={{ HIPEAC_EVENT_UUID }}',
+                        this.registration
+                    ).then(function (res) {
+                        notify({
+                            type: 'positive',
+                            message: 'Thank you! We have received your registration. You will receive a confirmation email soon.'
+                        });
+                    }).catch(function (error) {
+                        notify({
+                            type: 'warning',
+                            message: 'There was some problem saving the data.'
+                        });
+                    });
+                },
+                onReset: function () {
+                    this.registration = {};
+                }
+            }
+        };
+
+        var Router = new VueRouter({
+            routes: [
+                {
+                    name: 'main',
+                    path: '/',
+                    pathToRegexpOptions: {strict: true},
+                    component: MainView
+                },
+                {
+                    name: 'registration',
+                    path: '/registration/',
+                    pathToRegexpOptions: {strict: true},
+                    component: RegistrationView
+                }
+            ]
+        });
+
+        new Vue({
+            el: '#vue',
+            router: Router
+        });
+    </script>
+{% endblock %}
