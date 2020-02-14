@@ -5,7 +5,7 @@
                 <q-icon name="link" color="blue-3" />
             </template>
             You can access your registration at any time using the following URL:<br>
-            <em ref="url">{{ request.url }}#/r/{% raw %}{{ registration.uuid }}{% endraw %}/</em>
+            <em ref="url">{{ url_for('event_2020', _external=True, _scheme='https') }}#/r/{% raw %}{{ registration.uuid }}{% endraw %}/</em>
             <template v-slot:action>
                 <q-btn flat label="Copy URL" @click="copyUrl" />
             </template>

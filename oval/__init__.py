@@ -13,14 +13,12 @@ app = Flask(__name__, static_url_path="/static")
 app.config.update(SECRET_KEY=os.environ.get("FLASK_SECRET_KEY", "FLASK_SECRET_KEY"),)
 
 if "REDIS_URL" in os.environ:
-    app.config["DEBUG"] = False
     CACHE_CONFIG = {
         "CACHE_TYPE": "redis",
         "CACHE_REDIS_URL": os.environ.get("REDIS_URL"),
         "CACHE_DEFAULT_TIMEOUT": 60 * 60 * 6,  # 6 hours
     }
 else:
-    app.config["DEBUG"] = True
     CACHE_CONFIG = {"CACHE_TYPE": "null"}
 
 

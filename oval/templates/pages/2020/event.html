@@ -1,6 +1,19 @@
 {% extends 'base.html' %}
 
 
+{% block title %}First European Open Virtual Assistant Workshop - OVAL{% endblock %}
+
+{% block open_graph %}
+    <meta name="title" content="First European Open Virtual Assistant Workshop - OVAL">
+    <meta name="description" content="Discover the vision, the new technical advances, infrastructures, and tools to accelerate natural language interfaces development, the open-source community and partners to date, how to participate, a hands-on tutorial, and the current roadmap.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/background.jpg', _external=True, _scheme='https') }}">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ request.url }}">
+    <meta property="twitter:image" content="{{ url_for('static', filename='images/background.jpg', _external=True, _scheme='https') }}">
+{% endblock %}
+
 {% block content %}
     <div id="vue" is="q-layout" view="hHh LpR fFf">
         <div is="q-page-container">
@@ -205,7 +218,10 @@
                     pathToRegexpOptions: {strict: true},
                     component: VenueView
                 }
-            ]
+            ],
+            scrollBehavior: function () {
+                return {x: 0, y: 0};
+            }
         });
 
         new Vue({
