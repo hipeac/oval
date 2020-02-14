@@ -1,0 +1,72 @@
+<script type="text/x-template" id="v-venue">
+    <div>
+        <p class="q-mb-lg">The First European Open Virtual Assistant Workshop will take place at the <strong>Centre d'intégration Nano-INNOV</strong> –Amphitheater of building 862 (where the «accueil» is located)– in Palaiseau, France.</p>
+        <q-img src="{{ url_for('static', filename='images/nano-innov.png') }}" />
+        <div class="row reverse q-col-gutter-x-xl">
+            <div class="col-12 col-md-6">
+                <q-img src="{{ url_for('static', filename='images/nano-innov--detail.png') }}" />
+                <q-banner class="bg-grey-3 q-mt-lg">
+                    <strong>Centre d'intégration Nano-INNOV</strong><br>
+                    2 Boulevard Thomas Gobert<br>
+                    91120 Palaiseau<br>
+                    Tel: +33 (0)1 69 08 05 14
+                    <template v-slot:action>
+                        <q-btn flat color="dark" label="Open in Maps" type="a" href="https://goo.gl/maps/g2KoWoXSvL969QKm8" target="_blank" rel="noopener" />
+                    </template>
+                </q-banner>
+            </div>
+            <div class="col-12 col-md-6">
+                <h6 class="text-subtitle1 q-my-lg">Comming to Nano-INNOV</h6>
+                <p class="text-subtitle2">BY ROAD (from Paris)</p>
+                <p>1. By N118 via Pont de Sèvres</p>
+                <ul>
+                    <li>Follow N118 to exit 9 (Centre Universitaire);</li>
+                    <li>at the 1st roundabout take the 4th exit;</li>
+                    <li>at the following roundabout take the 1st exit onto D128 towards Palaiseau;</li>
+                    <li>at 500 meters, turn right at the second light.</li>
+                </ul>
+                <p>2. By A6 via Porte d’Orléans or Porte d’Italie</p>
+                <ul>
+                    <li>Take A6a, then follow E5/E50/Palaiseau/Étampes/Bordeaux/
+                    Nantes/Massy/Longjumeau;</li>
+                    <li>exit left towards D444/Versailles/Igny/Bièvres;</li>
+                    <li>join A126 then continue on D36;</li>
+                    <li>at the roundabout take the 2nd exit onto Avenue de la Vauve/D128;</li>
+                    <li>at the 2nd light, turn right onto Boulevard Gaspard Monge;</li>
+                    <li>go straight at the next 4 lights and at 50 meters turn left onto Nano-INNOV.</li>
+                </ul>
+            </div>
+        </div>
+        <q-separator class="q-my-lg" />
+        <p class="text-subtitle2 q-mb-md">BY PUBLIC TRANSPORTATION</p>
+        <div class="row q-col-gutter-x-xl">
+            <div class="col-12 col-md-6">
+                <p>From Paris:</p>
+                <ul>
+                    <li>RER B, (direction "Saint-Rémy-lès-Chevreuse");</li>
+                    <li>RER C, (direction "Versailles Chantiers");</li>
+                    <li>"Massy-Palaiseau" station (then see below).</li>
+                </ul>
+                <p>From Roissy-CDG:</p>
+                <ul>
+                    <li>From Roissy-CDG</li>
+                    <li>RER B (direction "Saint-Rémy-lès-Chevreuse");</li>
+                    <li>"Massy-Palaiseau" station (then see below).</li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-6">
+                <p>From Massy-Palaiseau (TGV or RER):</p>
+                <ul>
+                    <li>Bus Express 91.06;</li>
+                    <li>Bus Express 91.10;</li>
+                    <li>"Corbeville" station.</li>
+                </ul>
+                <p>From Orly:</p>
+                <ul>
+                    <li>Bus Express 91.10;</li>
+                    <li>"Corbeville" station.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</script>

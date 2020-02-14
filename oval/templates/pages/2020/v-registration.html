@@ -1,8 +1,18 @@
 <script type="text/x-template" id="v-registration">
-{% raw %}
     <div>
+        <q-banner v-if="registration" :inline-actions="$q.screen.gt.sm" rounded class="bg-blue-1 q-mb-lg">
+            <template v-slot:avatar>
+                <q-icon name="link" color="blue-3" />
+            </template>
+            You can access your registration at any time using the following URL:<br>
+            <em ref="url">{{ request.url }}#/r/{% raw %}{{ registration.uuid }}{% endraw %}/</em>
+            <template v-slot:action>
+                <q-btn flat label="Copy URL" @click="copyUrl" />
+            </template>
+        </q-banner>
+
         <q-form
-            class="oval-form q-mx-auto"
+            class="oval-width q-mx-auto"
             autocorrect="off"
             autocapitalize="off"
             autocomplete="off"
@@ -14,27 +24,14 @@
                 <q-timeline-entry
                     icon="person"
                     subtitle="Contact information (required)">
-                    <q-input filled
-                        v-model="formData.first_name"
-                        label="First name *"
-                        :rules="[ val => val && val.length > 0 || 'Please type something']"
-                    />
-                    <q-input filled
-                        v-model="formData.last_name"
-                        label="Surname *"
-                        :rules="[ val => val && val.length > 0 || 'Please type something']"
-                    />
-                    <q-input filled
-                        type="email"
-                        v-model="formData.email"
-                        label="Email *"
-                        :rules="[ val => val && val.length > 0 || 'Please type something']"
-                    />
-                    <q-input filled
-                        v-model="formData.affiliation"
-                        label="Affiliation *"
-                        :rules="[ val => val && val.length > 0 || 'Please type something']"
-                    />
+                    <q-input filled v-model="formData.first_name" label="First name *"
+                        :rules="[function (val) { return val && val.length > 0 }]" />
+                    <q-input filled v-model="formData.last_name" label="Surname *"
+                        :rules="[function (val) { return val && val.length > 0 }]" />
+                    <q-input filled type="email" v-model="formData.email" label="Email *"
+                        :rules="[function (val) { return val && val.length > 0 }]" />
+                    <q-input filled v-model="formData.affiliation" label="Affiliation *"
+                        :rules="[function (val) { return val && val.length > 0 }]" />
                 </q-timeline-entry>
 
                 <q-timeline-entry
@@ -42,28 +39,16 @@
                     subtitle="Address">
                     <p>Non mandatory. We might use this to send you relevant information. We will <strong>never</strong> share this information with third-parties.</p>
                     <div class="q-gutter-md q-mt-md">
-                        <q-input autogrow filled
-                            v-model="formData.address"
-                            label="Address"
-                        />
+                        <q-input autogrow filled v-model="formData.address" label="Address" />
                         <div class="row">
                             <div class="col-4 q-pr-md">
-                                <q-input filled
-                                    v-model="formData.zip_code"
-                                    label="ZIP code"
-                                />
+                                <q-input filled v-model="formData.zip_code" label="ZIP code" />
                             </div>
                             <div class="col-8">
-                                <q-input filled
-                                    v-model="formData.city"
-                                    label="City"
-                                />
+                                <q-input filled v-model="formData.city" label="City" />
                             </div>
                         </div>
-                        <q-input filled
-                            v-model="formData.country_raw"
-                            label="Country"
-                        />
+                        <q-input filled v-model="formData.country_raw" label="Country" />
                     </div>
                 </q-timeline-entry>
 
@@ -82,8 +67,7 @@
                         <q-input filled
                             type="textarea"
                             v-model="formData.open_q1"
-                            label="What are you expecting from virtual assistant technology?"
-                            />
+                            label="What are you expecting from virtual assistant technology?" />
                         <q-checkbox v-model="formData.bool_q2" label="Check this box if you are interested in actively participating on the development of this technology." />
                     </div>
                 </q-timeline-entry>
@@ -95,5 +79,4 @@
             </q-timeline>
         </q-form>
     </div>
-{% endraw %}
 </script>

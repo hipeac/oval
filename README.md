@@ -31,7 +31,7 @@ Style guide
 
 Tab size is 4 spaces. Max line length is 120. You should run `black` before committing any change.
 
-    $ black lnbits
+    $ black oval
 
 
 [flask]: https://flask.pocoo.org/

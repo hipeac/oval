@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div id="vue" is="q-layout" view="hHh LpR fFf">
+        <div is="q-page-container">
+            <main is="q-page" class="oval-container q-mt-lg q-mb-xl q-mx-auto q-pa-lg bg-white rounded-borders" :class="{'q-pa-xl': $q.screen.gt.xs}">
+                <div class="text-center">
+                    <div class="oval-logos q-gutter-x-xl">
+                        <a href="http://www.cea.fr/english" target="_blank" rel="noopener">
+                            <img src="{{ url_for('static', filename='images/cea-list.svg') }}">
+                        </a>
+                        <a href="https://oval.cs.stanford.edu/" target="_blank" rel="noopener">
+                            <img src="{{ url_for('static', filename='images/stanford.svg') }}">
+                        </a>
+                        <a href="https://www.hipeac.net/" target="_blank" rel="noopener">
+                            <img src="{{ url_for('static', filename='images/hipeac.svg') }}">
+                        </a>
+                    </div>
+                    <h1 class="q-my-lg text-h3 text-weight-light">First European Open Virtual Assistant Workshop</h1>
+                    <h3 class="q-mt-none text-h6 text-weight-light">March 20th, 2020 at Nano-INNOV, Palaiseau</h3>
+                </div>
+                <div is="q-tabs" inline-label align="justify" class="text-blue-grey-8">
+                    <div is="q-route-tab" :to="{ name: 'main' }" exact icon="chat" label="Workshop" ></div>
+                    <div is="q-route-tab" :to="{ name: 'agenda' }" exact icon="view_agenda" label="Agenda" ></div>
+                    <div is="q-route-tab" v-if="registration" :to="{ name: 'registration', params: { uuid: registration.uuid } }" exact icon="edit" label="My registration"></div>
+                    <div is="q-route-tab" v-else :to="{ name: 'register' }" exact icon="edit" label="Register"></div>
+                    <div is="q-route-tab" :to="{ name: 'venue' }" exact icon="location_on" label="Venue" ></div>
+                </div>
+                <div is="q-separator"></div>
+                <div is="router-view" class="q-my-lg" :class="{'q-my-xl': $q.screen.gt.sm}"></div>
+            </main>
+        </div>
+    </div>
+{% endblock %}
+
+{% block vue_templates %}
+    {% include 'pages/2020/v-agenda.html' %}
+    {% include 'pages/2020/v-main.html' %}
+    {% include 'pages/2020/v-registration.html' %}
+    {% include 'pages/2020/v-venue.html' %}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var Store = new Vuex.Store({
+            state: {
+                registration: null
+            },
+            mutations: {
+                updateRegistration: function (state, data) {
+                    state.registration = data;
+                },
+                fetchRegistration: Quasar.utils.debounce(function(state, uuid) {
+                    axios({
+                        method: 'get',
+                        url: '{{ HIPEAC_API_ENDPOINT }}/open-registrations/' + uuid + '/'
+                    }).then(function (res) {
+                        state.registration = res.data;
+                    });
+                }, 250)
+            }
+        });
+
+        var AgendaView = {
+            template: '#v-agenda',
+            computed: Quasar.utils.extend(
+                Vuex.mapState(['registration']), {
+            })
+        };
+
+        var MainView = {
+            template: '#v-main',
+            computed: Quasar.utils.extend(
+                Vuex.mapState(['registration']), {
+            })
+        };
+
+        var RegistrationMixin = Vue.extend({
+            template: '#v-registration',
+            data: function () {
+                return {
+                    formData: {bool_q2: false}
+                };
+            },
+            computed: Quasar.utils.extend(
+                Vuex.mapState(['registration']), {
+            }),
+            methods: {
+                onSubmit: function () {
+                    var self = this;
+                    var method = ((this.registration) ? 'put' : 'post');
+                    var url = ((this.registration)
+                        ? '{{ HIPEAC_API_ENDPOINT }}/open-registrations/' + this.registration.uuid + '/'
+                        : '{{ HIPEAC_API_ENDPOINT }}/open-registrations/?event={{ HIPEAC_EVENT_UUID }}'
+                    );
+                    var msg = ((this.registration)
+                        ? 'Your registration has been updated.'
+                        : 'Thank you! We have received your registration. You will receive a confirmation email soon.'
+                    );
+
+                    axios({
+                        method: method,
+                        url: url,
+                        data: self.formData
+                    }).then(function (res) {
+                        self.$store.commit('updateRegistration', res.data);
+                        self.$router.push({name: 'registration', params: {uuid: res.data.uuid}});
+                        self.$parent.$q.notify({
+                            type: 'positive',
+                            message: msg
+                        });
+                    }).catch(function (error) {
+                        self.$parent.$q.notify({
+                            type: 'warning',
+                            message: 'There was some problem saving the data.'
+                        });
+                    });
+                },
+                onReset: function () {
+                    this.formData = {bool_q2: false};
+                },
+                copyUrl: function () {
+                    var notify = this.$parent.$q.notify;
+                    Quasar.utils.copyToClipboard(this.$refs.url.innerText).then(function () {
+                        notify({
+                            message: 'URL copied to clipboard.'
+                        });
+                    });
+                }
+            },
+            watch: {
+                'registration': function (val, oldVal) {
+                    this.formData = JSON.parse(JSON.stringify(val));
+                }
+            }
+        });
+
+        var RegistrationCreateView = RegistrationMixin.extend({
+            created: function () {
+                if (this.registration) {
+                    this.$router.push({name: 'registration', params: {uuid: this.registration.uuid}});
+                }
+            }
+        });
+
+        var RegistrationUpdateView = RegistrationMixin.extend({
+            created: function () {
+                if (!this.registration) {
+                    this.$store.commit('fetchRegistration', this.$route.params.uuid);
+                } else {
+                    this.formData = JSON.parse(JSON.stringify(this.registration));
+                }
+            }
+        });
+
+        var VenueView = {
+            template: '#v-venue',
+            computed: Quasar.utils.extend(
+                Vuex.mapState(['registration']), {
+            })
+        };
+
+        var Router = new VueRouter({
+            routes: [
+                {
+                    name: 'main',
+                    path: '/',
+                    pathToRegexpOptions: {strict: true},
+                    component: MainView
+                },
+                {
+                    name: 'agenda',
+                    path: '/agenda/',
+                    pathToRegexpOptions: {strict: true},
+                    component: AgendaView
+                },
+                {
+                    name: 'register',
+                    path: '/register/',
+                    pathToRegexpOptions: {strict: true},
+                    component: RegistrationCreateView
+                },
+                {
+                    name: 'registration',
+                    path: '/r/:uuid/',
+                    pathToRegexpOptions: {strict: true},
+                    component: RegistrationUpdateView
+                },
+                {
+                    name: 'venue',
+                    path: '/venue/',
+                    pathToRegexpOptions: {strict: true},
+                    component: VenueView
+                }
+            ]
+        });
+
+        new Vue({
+            el: '#vue',
+            store: Store,
+            router: Router,
+            data: function () {
+                return {
+                    storageKey: 'oval2020_registration_uuid'
+                };
+            },
+            computed: Quasar.utils.extend(
+                Vuex.mapState(['registration']), {
+            }),
+            beforeCreate: function () {
+                if (this.$route.path.substr(-1) !== '/') {
+                    this.$router.push({'path': this.$route.path + '/'});
+                }
+            },
+            watch: {
+                'registration': function (val, oldVal) {
+                    this.$q.localStorage.set(this.storageKey, val.uuid);
+                }
+            },
+            created: function () {
+                if (!this.registration && this.$q.localStorage.has(this.storageKey)) {
+                    this.$store.commit('fetchRegistration', this.$q.localStorage.getItem(this.storageKey));
+                }
+            }
+        });
+    </script>
+{% endblock %}
