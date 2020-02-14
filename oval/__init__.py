@@ -5,6 +5,7 @@ from flask import Flask
 from flask_assets import Environment, Bundle
 from flask_caching import Cache
 from flask_compress import Compress
+from flask_talisman import Talisman
 
 
 app = Flask(__name__, static_url_path='/static')
@@ -25,9 +26,23 @@ else:
     CACHE_CONFIG = {'CACHE_TYPE': 'null'}
 
 
-# optimization
-Compress(app)
+# optimization & security
 cache = Cache(app, config=CACHE_CONFIG)
+Compress(app)
+Talisman(
+    app,
+    content_security_policy={
+        "default-src": [
+            "'self'",
+            "'unsafe-eval'",
+            "'unsafe-inline'",
+            "fonts.googleapis.com",
+            "fonts.gstatic.com",
+            "images.unsplash.com",
+            "www.hipeac.net"
+        ]
+    },
+)
 
 
 # assets
