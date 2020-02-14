@@ -80,7 +80,13 @@
             template: '#v-registration',
             data: function () {
                 return {
-                    formData: {bool_q2: false}
+                    formData: {
+                        fields: {
+                            break_out_session: null,
+                            tech_comments: '',
+                            tech_interest: false
+                        }
+                    }
                 };
             },
             computed: Quasar.utils.extend(
@@ -118,7 +124,13 @@
                     });
                 },
                 onReset: function () {
-                    this.formData = {bool_q2: false};
+                    this.formData = {
+                        fields: {
+                            break_out_session: null,
+                            tech_comments: '',
+                            tech_interest: false
+                        }
+                    };
                 },
                 copyUrl: function () {
                     var notify = this.$parent.$q.notify;

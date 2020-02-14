@@ -56,8 +56,8 @@
                     icon="airplay"
                     subtitle="Break Out Sessions">
                     <p>In the afternoon (15:15 - 16:15) we will be organizing two break out sessions at the same time. Could you please indicate which one of the two sessions you would like to attend?</p>
-                    <q-radio v-model="formData.bool_q1" :val="true" label="Making a Global Initiative (open discussion)" />
-                    <q-radio v-model="formData.bool_q1" :val="false" label="Virtual Assistant Technology (tutorial)" />
+                    <q-radio v-model="formData.fields.break_out_session" val="discussion" label="Making a Global Initiative (open discussion)" />
+                    <q-radio v-model="formData.fields.break_out_session" val="tutorial" label="Virtual Assistant Technology (tutorial)" />
                 </q-timeline-entry>
 
                 <q-timeline-entry
@@ -66,9 +66,9 @@
                     <div class="q-gutter-md q-mt-md">
                         <q-input filled
                             type="textarea"
-                            v-model="formData.open_q1"
+                            v-model="formData.fields.tech_comments"
                             label="What are you expecting from virtual assistant technology?" />
-                        <q-checkbox v-model="formData.bool_q2" label="Check this box if you are interested in actively participating on the development of this technology." />
+                        <q-checkbox v-model="formData.fields.tech_interest" label="Check this box if you are interested in actively participating on the development of this technology." />
                     </div>
                 </q-timeline-entry>
 
