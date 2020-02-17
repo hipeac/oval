@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Admin - OVAL Europe {{ year }}{% endblock %}
+
+{% block content %}
+    <div id="vue" is="q-layout" view="hHh LpR fFf">
+        <div is="q-page-container">
+            <main is="q-page" class="q-mt-lg q-ma-lg q-pa-lg bg-white rounded-borders" :class="{'q-pa-xl q-ma-none': $q.screen.gt.xs}">
+                <div is="router-view"></div>
+            </main>
+        </div>
+    </div>
+{% endblock %}
+
+{% block vue_templates %}
+    {% include ('events/' + year + '/admin/v-registrations.html') %}
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var Store = new Vuex.Store({
+            state: {
+                registrations: []
+            },
+            mutations: {
+                fetchRegistrations: function(state) {
+                    axios({
+                        method: 'get',
+                        url: '{{ HIPEAC_API_ENDPOINT }}/open-events/{{ event_code }}/registrations/?secret_key={{ event_secret }}'
+                    }).then(function (res) {
+                        res.data.forEach(function(obj, index) {
+                            obj.index = index + 1;
+                            obj.full_name = [obj.first_name, obj.last_name].join(' ');
+                            for(var key in obj.fields) {
+                                obj['fields__' + key] = obj.fields[key];
+                            }
+                        });
+                        state.registrations = Object.freeze(res.data);
+                    });
+                }
+            }
+        });
+
+        var RegistrationListView = {
+            template: '#v-registrations',
+            data: function () {
+                return {
+                    columns: [
+                        { name: 'index', label: '#', field: 'index' },
+                        { name: 'name', align: 'left', label: 'Name', field: 'full_name', sortable: true},
+                        { name: 'affiliation', align: 'left', label: 'Affiliation', field: 'affiliation', sortable: true},
+                        { name: 'break_out_session', align: 'left', label: 'Break out session', field: 'fields__break_out_session'},
+                        { name: 'tech_interest', align: 'left', label: 'Interested in tech', field: 'fields__tech_interest'},
+                        { name: 'created_at', align: 'left', label: 'Created at', field: 'created_at', sortable: true},
+                    ],
+                    pagination: {
+                        sortBy: 'created_at',
+                        descending: true,
+                        rowsPerPage: 50
+                    },
+                    filters: {
+                        visibleSessions: ['discussion', 'tutorial']
+                    }
+                };
+            },
+            computed: Quasar.utils.extend(
+                Vuex.mapState(['registrations']), {
+                filteredRegistrations: function () {
+                    var filter = this.filters.visibleSessions;
+                    return this.registrations.filter(function (obj) {
+                        return filter.indexOf(obj.fields__break_out_session) !== -1;
+                    });
+                }
+            })
+        };
+
+        var Router = new VueRouter({
+            routes: [
+                {
+                    name: 'main',
+                    path: '/',
+                    redirect: '/registrations/'
+                },
+                {
+                    name: 'registrations',
+                    path: '/registrations/',
+                    pathToRegexpOptions: {strict: true},
+                    component: RegistrationListView
+                }
+            ],
+            scrollBehavior: function () {
+                return {x: 0, y: 0};
+            }
+        });
+
+        new Vue({
+            el: '#vue',
+            store: Store,
+            router: Router,
+            created: function () {
+                this.$store.commit('fetchRegistrations');
+            }
+        });
+    </script>
+{% endblock %}

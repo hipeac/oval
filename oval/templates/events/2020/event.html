@@ -48,10 +48,10 @@
 {% endblock %}
 
 {% block vue_templates %}
-    {% include 'pages/2020/v-agenda.html' %}
-    {% include 'pages/2020/v-main.html' %}
-    {% include 'pages/2020/v-registration.html' %}
-    {% include 'pages/2020/v-venue.html' %}
+    {% include 'events/2020/v-agenda.html' %}
+    {% include 'events/2020/v-main.html' %}
+    {% include 'events/2020/v-registration.html' %}
+    {% include 'events/2020/v-venue.html' %}
 {% endblock %}
 
 {% block scripts %}
@@ -111,7 +111,7 @@
                     var method = ((this.registration) ? 'put' : 'post');
                     var url = ((this.registration)
                         ? '{{ HIPEAC_API_ENDPOINT }}/open-registrations/' + this.registration.uuid + '/'
-                        : '{{ HIPEAC_API_ENDPOINT }}/open-registrations/?event={{ HIPEAC_EVENT_UUID }}'
+                        : '{{ HIPEAC_API_ENDPOINT }}/open-registrations/?event={{ event_code }}'
                     );
                     var msg = ((this.registration)
                         ? 'Your registration has been updated.'

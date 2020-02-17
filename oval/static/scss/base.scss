@@ -40,6 +40,10 @@ body {
     color: $stanford-bright-red;
 }
 
+.text-wrap {
+    white-space: inherit !important;
+}
+
 p a {
     color: $hipeac-blue;
 

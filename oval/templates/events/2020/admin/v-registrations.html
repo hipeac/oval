@@ -1,0 +1,49 @@
+<script type="text/x-template" id="v-registrations">
+{% raw %}
+    <div>
+        <q-table flat
+            title="Registrations"
+            :data="filteredRegistrations"
+            :columns="columns"
+            :pagination.sync="pagination"
+            row-key="uuid"
+        >
+            <template v-slot:top>
+                <h6 class="q-my-none">First European Open Virtual Assistant Workshop<br><small class="text-weight-light">Registrations</small></h6>
+                <q-space />
+                <div class="q-gutter-sm">
+                    <q-checkbox dense v-model="filters.visibleSessions" val="discussion" label="Open discussion" color="green" />
+                    <q-checkbox dense v-model="filters.visibleSessions" val="tutorial" label="Tutorial" color="orange" />
+                </div>
+            </template>
+
+            <template v-slot:header="props">
+                <q-tr :props="props">
+                    <q-th
+                        v-for="col in props.cols"
+                        :key="col.name"
+                        :props="props">{{ col.label }}</q-th>
+                    <q-th auto-width />
+                </q-tr>
+            </template>
+
+            <template v-slot:body="props">
+                <q-tr :props="props">
+                    <q-td
+                        v-for="col in props.cols"
+                        :key="col.name"
+                        :props="props">{{ col.value }}</q-td>
+                    <q-td auto-width>
+                        <q-btn v-if="props.row.fields__tech_comments !== ''" size="sm" color="grey-8" flat dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'comment'" />
+                    </q-td>
+                </q-tr>
+                <q-tr v-show="props.expand" :props="props">
+                    <q-td colspan="100%" class="text-wrap text-left">
+                        <div><em>What are you expecting from virtual assistant technology?</em><br>{{ props.row.fields__tech_comments }}</div>
+                    </q-td>
+                </q-tr>
+            </template>
+        </q-table>
+    </div>
+{% endraw %}
+</script>

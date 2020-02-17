@@ -1,21 +1,30 @@
+import json
 import os
 
-from flask import jsonify, redirect, render_template, request, send_from_directory, url_for
-from datetime import datetime
+from flask import jsonify, redirect, render_template, send_from_directory, url_for
 
 from oval import app, cache
+
+
+EVENT_CODES = json.loads(os.environ.get("HIPEAC_EVENT_CODES", "{}"))
 
 
 @app.route("/")
 @cache.cached()
 def index():
-    return redirect(url_for("event_2020"))
+    return redirect(url_for("event", year=2020))
 
 
-@app.route("/2020/")
+@app.route("/admin/<event_secret>/<year>/")
 @cache.cached()
-def event_2020():
-    return render_template("pages/2020/event.html")
+def admin(year, event_secret):
+    return render_template("admin/dashboard.html", year=year, event_code=EVENT_CODES[year], event_secret=event_secret)
+
+
+@app.route("/<year>/")
+@cache.cached()
+def event(year):
+    return render_template(f"events/{year}/event.html", event_code=EVENT_CODES[year])
 
 
 @app.route("/hooks/cc/", methods=["GET"])

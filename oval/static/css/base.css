@@ -21,8 +21,11 @@ body {
 .text-st-bright-red {
   color: #b1040e; }
 
-  p a {
-    color: #005eb8; }
-    p a.inherit {
-      color: inherit;
-      text-decoration: underline; }
+  .text-wrap {
+    white-space: inherit !important; }
+
+    p a {
+      color: #005eb8; }
+      p a.inherit {
+        color: inherit;
+        text-decoration: underline; }

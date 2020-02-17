@@ -34,7 +34,7 @@ Talisman(
             "'unsafe-inline'",
             "fonts.googleapis.com",
             "fonts.gstatic.com",
-            "www.hipeac.net",
+            "localhost:8000" if app.config["DEBUG"] else "www.hipeac.net",
         ]
     },
 )
@@ -50,7 +50,6 @@ assets.register("base_css", Bundle("scss/base.scss", filters="pyscss", output="c
 app.jinja_env.globals["DEBUG"] = app.config["DEBUG"]
 app.jinja_env.globals["YEAR"] = datetime.now().year
 app.jinja_env.globals["HIPEAC_API_ENDPOINT"] = os.environ.get("HIPEAC_API_ENDPOINT", "https://www.hipeac.net/api/v1")
-app.jinja_env.globals["HIPEAC_EVENT_UUID"] = os.environ.get("HIPEAC_EVENT_UUID")
 
 
 # views
