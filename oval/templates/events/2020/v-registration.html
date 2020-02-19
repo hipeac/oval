@@ -32,6 +32,15 @@
                         :rules="[function (val) { return val && val.length > 0 }]" />
                     <q-input filled v-model="formData.affiliation" label="Affiliation *"
                         :rules="[function (val) { return val && val.length > 0 }]" />
+                    <q-input filled v-model="formData.fields.nationality" label="Nationality *"
+                        :rules="[function (val) { return val && val.length > 0 }]" />
+                    <q-checkbox v-model="formData.visa_requested" label="Check this box if you need a Visa letter to attend the workshop." />
+                </q-timeline-entry>
+
+                <q-timeline-entry
+                    icon="restaurant"
+                    subtitle="Dietary requirements and food allergies">
+                    <q-input filled v-model="formData.dietary_requirements" label="Do you have special dietary requirements or food allergies?" />
                 </q-timeline-entry>
 
                 <q-timeline-entry

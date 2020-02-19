@@ -94,10 +94,12 @@
             data: function () {
                 return {
                     formData: {
+                        visa_requested: false,
                         fields: {
                             break_out_session: null,
                             tech_comments: '',
-                            tech_interest: false
+                            tech_interest: false,
+                            nationality: ''
                         }
                     }
                 };
@@ -138,10 +140,12 @@
                 },
                 onReset: function () {
                     this.formData = {
+                        visa_requested: false,
                         fields: {
                             break_out_session: null,
                             tech_comments: '',
-                            tech_interest: false
+                            tech_interest: false,
+                            nationality: ''
                         }
                     };
                 },
