@@ -6,9 +6,11 @@ from flask_assets import Environment, Bundle
 from flask_caching import Cache
 from flask_compress import Compress
 from flask_talisman import Talisman
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 app = Flask(__name__, static_url_path="/static")
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 app.config.update(SECRET_KEY=os.environ.get("FLASK_SECRET_KEY", "FLASK_SECRET_KEY"),)
 
