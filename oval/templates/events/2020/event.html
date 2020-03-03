@@ -31,13 +31,13 @@
                         </a>
                     </div>
                     <h1 class="q-my-lg text-h3 text-weight-light">First European Open Virtual Assistant Workshop</h1>
-                    <h3 class="q-mt-none text-h6 text-weight-light">March 20th, 2020 at Nano-INNOV, Palaiseau</h3>
+                    <h3 class="q-mt-none text-h6 text-weight-light">June 2020 (tentative) at Nano-INNOV, Palaiseau</h3>
                 </div>
                 <div is="q-tabs" inline-label align="justify" class="text-blue-grey-8">
                     <div is="q-route-tab" :to="{ name: 'main' }" exact icon="chat" label="Workshop" ></div>
                     <div is="q-route-tab" :to="{ name: 'agenda' }" exact icon="view_agenda" label="Agenda" ></div>
-                    <div is="q-route-tab" v-if="registration" :to="{ name: 'registration', params: { uuid: registration.uuid } }" exact icon="edit" label="My registration"></div>
-                    <div is="q-route-tab" v-else :to="{ name: 'register' }" exact icon="edit" label="Register"></div>
+                    <!-- <div is="q-route-tab" v-if="registration" :to="{ name: 'registration', params: { uuid: registration.uuid } }" exact icon="edit" label="My registration"></div>
+                    <div is="q-route-tab" v-else :to="{ name: 'register' }" exact icon="edit" label="Register"></div> -->
                     <div is="q-route-tab" :to="{ name: 'venue' }" exact icon="location_on" label="Venue" ></div>
                 </div>
                 <div is="q-separator"></div>
